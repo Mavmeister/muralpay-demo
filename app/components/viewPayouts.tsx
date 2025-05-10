@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import React, { useEffect, useState } from "react";
 import { executePayout, getAllPayouts } from "../lib/api";
 
@@ -45,19 +46,18 @@ export interface PayoutData {
 
 const PayoutsTable: React.FC = () => {
   const [payouts, setPayouts] = useState<any | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchPayouts = async () => {
-      const payouts = await getAllPayouts();
-      setPayouts(payouts);
-    };
-    fetchPayouts();
+    handleRefresh();
   }, []);
 
   const handleRefresh = () => {
+    setLoading(true)
     const fetchPayouts = async () => {
       const payouts = await getAllPayouts();
       setPayouts(payouts);
+      setLoading(false)
     };
     fetchPayouts();
   };
@@ -70,8 +70,8 @@ const PayoutsTable: React.FC = () => {
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Payouts</h1>
-      <button style={styles.refreshButton} onClick={handleRefresh}>
-        Refresh Payouts
+      <button style={styles.refreshButton} className={loading ? "loading" : ""} onClick={handleRefresh} disabled={loading}>
+        Refresh Payments
       </button>
       <table style={styles.table}>
         <thead style={styles.tableHeader}>
@@ -147,7 +147,6 @@ const styles = {
   },
   table: {
     width: "100%",
-    // borderCollapse: "collapse",
     backgroundColor: "#2a2a3b", // Slightly lighter dark background for table
     borderRadius: "10px",
     overflow: "hidden",
@@ -156,7 +155,6 @@ const styles = {
   tableHeader: {
     backgroundColor: "#44475a", // Darker gray for the header
     color: "#ffffff", // White text for header
-    // textAlign: "left",
   },
   headerCell: {
     padding: "10px 15px",
@@ -184,6 +182,9 @@ const styles = {
     borderRadius: "5px",
     color: "green", // Lighter gray text for cells
   },
+  loading: {
+    border: "1px solid red"
+  }
 };
 
 export default PayoutsTable;

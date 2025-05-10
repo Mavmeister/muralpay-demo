@@ -13,7 +13,6 @@ export const AccountComponent: React.FC = () => {
   const handleAccountCreation = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const data = {
         name: accountName,
@@ -77,6 +76,7 @@ export const AccountComponent: React.FC = () => {
           style={loading ? styles.disabledButton : styles.primaryButton}
           onClick={handleAccountCreation}
           disabled={!(accountName.length > 2 && accountDescription.length > 2)}
+          className={(accountName.length > 2 && accountDescription.length > 2) ? "" : "invalid"}
         >
           {loading ? 'Creating Account...' : 'Create Account'}
         </button>
@@ -114,7 +114,6 @@ const styles = {
   },
   formContainer: {
     display: "flex",
-    // flexDirection: "column",
     gap: "15px",
     marginBottom: "20px",
   },
@@ -146,7 +145,6 @@ const styles = {
     borderRadius: "5px",
     fontSize: "1rem",
     cursor: "not-allowed",
-    // textAlign: "center",
   },
   errorMessage: {
     color: "#FF5252", // Red for error
@@ -163,6 +161,9 @@ const styles = {
     fontSize: "1rem",
     color: "#dddddd", // Lighter gray text for results
   },
+  invalid: {
+    backgroundColor: "gray"
+  }
 };
 
 export default AccountComponent;

@@ -1,7 +1,6 @@
 import React from "react";
 
 export const DisabledInputFields: React.FC = () => {
-  // Data object
   const data = {
     sourceAccountId: "ff62e99a-fea7-417e-873e-39133c0ae4fa",
     memo: "Sample test",
@@ -44,23 +43,18 @@ export const DisabledInputFields: React.FC = () => {
 
   return (
     <div>
-      {/* Source Account ID */}
       <label>
         Source Account ID:
         <input type="text" value={data.sourceAccountId} disabled />
       </label>
       <br />
       <br />
-
-      {/* Memo */}
       <label>
         Memo:
         <input type="text" value={data.memo} disabled />
       </label>
       <br />
       <br />
-
-      {/* Payouts */}
       <h2>Payouts</h2>
       {data.payouts.map((payout, index) => (
         <fieldset key={index} style={{ border: "1px solid #ddd", padding: "10px", marginBottom: "10px" }}>
@@ -79,7 +73,6 @@ export const DisabledInputFields: React.FC = () => {
           <br />
           <br />
 
-          {/* Payout Details */}
           <h3>Payout Details</h3>
           <label>
             Bank Routing Number:
@@ -123,7 +116,6 @@ export const DisabledInputFields: React.FC = () => {
           <br />
           <br />
 
-          {/* Recipient Info */}
           <h3>Recipient Info</h3>
           <label>
             First Name:
@@ -152,7 +144,6 @@ export const DisabledInputFields: React.FC = () => {
           <br />
           <br />
 
-          {/* Physical Address */}
           <h3>Physical Address</h3>
           <label>
             Address 1:
