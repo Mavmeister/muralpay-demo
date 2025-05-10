@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import { SearchComponent } from "@/app/components/search";
 import AccountComponent from "./components/accounts";
 import { PayoutRequestComponent } from "./components/createPayout";
 import ViewPayouts from "./components/viewPayouts";
