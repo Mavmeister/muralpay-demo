@@ -106,10 +106,8 @@ export const otherAPI = async () => {
       },
     });
 
-    // Return the API response
     return response.data;
   } catch (error: any) {
-    // Handle errors
     if (error.response) {
       console.error('API Error:', error.response.data);
       throw new Error(error.response.data.message || 'API Error');
