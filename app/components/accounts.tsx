@@ -1,14 +1,30 @@
 'use client';
-import React, { useState } from 'react';
-import { createAccount, otherAPI } from '../lib/api';
+import React, { useEffect, useState } from 'react';
+import { createAccount, getAllAccounts, otherAPI } from '../lib/api';
 
 export const AccountComponent: React.FC = () => {
   const [accountName, setAccountName] = useState('');
   const [accountDescription, setAccountDescription] = useState('');
   const [results, setResults] = useState<any>({});
+  const [accounts, setAccounts] = useState<any>([]);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [fact, setFact] = useState("");
+
+  useEffect(() => {
+    handleRefresh()
+  }, [])
+
+  const handleRefresh = () => {
+    setLoading(true)
+    const fetchAccounts = async () => {
+      const accounts = await getAllAccounts();
+      console.log(accounts);
+      setAccounts(accounts);
+      setLoading(false)
+    };
+    fetchAccounts();
+  };
 
   const handleAccountCreation = async () => {
     setLoading(true);
@@ -51,6 +67,8 @@ export const AccountComponent: React.FC = () => {
       setError(e);
     } finally {
       setLoading(false);
+      setAccountName("")
+      setAccountDescription("")
     }
   };
 
@@ -91,6 +109,26 @@ export const AccountComponent: React.FC = () => {
         )}
       </ul>
       <p>Random Fact: {fact}</p>
+      <button style={styles.refreshButton} className={loading ? "loading" : ""} onClick={handleRefresh} disabled={loading}>
+        Refresh Payments
+      </button>
+      <table style={styles.table}>
+        <thead style={styles.tableHeader}>
+          <tr>
+            <th style={styles.headerCell}>Name</th>
+            <th style={styles.headerCell}>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {accounts &&
+            accounts.map((result: any) =>
+              <tr key={result.id} style={styles.row}>
+                <td style={styles.cell}>{result.name}</td>
+                <td style={styles.cell}>{result.status}</td>
+              </tr>
+            )}
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -160,6 +198,46 @@ const styles = {
     marginBottom: "10px",
     fontSize: "1rem",
     color: "#dddddd", // Lighter gray text for results
+  },
+  table: {
+    width: "100%",
+    backgroundColor: "#2a2a3b", // Slightly lighter dark background for table
+    borderRadius: "10px",
+    overflow: "hidden",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.5)",
+  },
+  tableHeader: {
+    backgroundColor: "#44475a", // Darker gray for the header
+    color: "#ffffff", // White text for header
+  },
+  headerCell: {
+    padding: "10px 15px",
+    fontWeight: "bold",
+    fontSize: "1rem",
+    borderBottom: "1px solid #555", // Subtle border
+  },
+  row: {
+    borderBottom: "1px solid #555", // Subtle row divider
+    transition: "background-color 0.3s",
+  },
+  rowHover: {
+    backgroundColor: "#333344", // Highlight on row hover
+  },
+  refreshButton: {
+    padding: "10px 20px",
+    backgroundColor: "rgb(85, 85, 85)", // Blue button
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginBottom: "20px",
+    fontSize: "1rem",
+    transition: "background-color 0.3s",
+  },
+  cell: {
+    padding: "10px 15px",
+    fontSize: "0.9rem",
+    color: "#dddddd", // Lighter gray text for cells
   },
   invalid: {
     backgroundColor: "gray"

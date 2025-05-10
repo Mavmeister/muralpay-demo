@@ -32,6 +32,21 @@ export const createAccount = async (
     }
   };
 }
+export const getAllAccounts = async (): Promise<{ output: AccountOutput }> => {
+  try {
+    const response = await api.get('/accounts');
+    console.log(response)
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error('API Error:', error.response.data);
+      return error
+    } else {
+      console.error('Network Error:', error.message);
+      return error
+    }
+  };
+}
 export const requestPayout = async (
   payout: PayoutRequestInput
 ): Promise<{ output: PayoutRequestOutput }> => {
