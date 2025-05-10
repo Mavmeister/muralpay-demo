@@ -5,7 +5,6 @@ import { AccountInput, AccountOutput, PayoutRequestInput, PayoutRequestOutput } 
 
 const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
 const API_URL = 'https://api-staging.muralpay.com/api/';
-const CAT_API = 'live_drXBAVfNeVjQ2YWzFHOHDMrneGFT0QLdhkmjKOf19kEQlqDOfq0Reex5mlqfIou7';
 const TRANSFER_KEY = process.env.NEXT_PUBLIC_TRANSFER_KEY;
 
 const api = axios.create({
@@ -40,7 +39,6 @@ export const requestPayout = async (
     const response = await api.post('/payouts/payout', payout);
     return response.data;
   } catch (error: any) {
-    // Handle errors
     if (error.response) {
       console.error('API Error:', error.response.data);
       throw new Error(error.response.data.message || 'API Error');
@@ -55,7 +53,6 @@ export const getAllPayouts = async (): Promise<{ payouts: PayoutData }> => {
     const response = await api.post('/payouts/search');
     return response.data;
   } catch (error: any) {
-    // Handle errors
     if (error.response) {
       console.error('API Error:', error.response.data);
       throw new Error(error.response.data.message || 'API Error');
@@ -70,7 +67,6 @@ export const executePayout = async (id: any): Promise<{ output: PayoutRequestOut
     const response = await api.post(`/payouts/payout/${id}/execute`);
     return response.data;
   } catch (error: any) {
-    // Handle errors
     if (error.response) {
       console.error('API Error:', error.response.data);
       throw new Error(error.response.data.message || 'API Error');
@@ -87,7 +83,6 @@ export const searchOrganizations = async (): Promise<{ output: any }> => {
     const response = await api.post('/organizations/search', { filter: { type: 'name', name: 'james' } });
     return response.data;
   } catch (error: any) {
-    // Handle errors
     if (error.response) {
       console.error('API Error:', error.response.data);
       throw new Error(error.response.data.message || 'API Error');
@@ -99,7 +94,6 @@ export const searchOrganizations = async (): Promise<{ output: any }> => {
 }
 export const otherAPI = async () => {
   try {
-    // Make the POST request using Axios
     const response = await axios.get('https://uselessfacts.jsph.pl/random.json', {
       headers: {
         'Content-Type': 'application/json',
